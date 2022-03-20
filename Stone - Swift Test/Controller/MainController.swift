@@ -8,14 +8,19 @@
 import UIKit
 
 class MainController: UIViewController {
+    
+    let info = ItemManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        info.getData()
         // Do any additional setup after loading the view.
     }
 
 
     @IBAction func requestButton(_ sender: UIButton) {
+        
     }
 }
 
