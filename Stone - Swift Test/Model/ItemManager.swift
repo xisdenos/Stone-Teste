@@ -19,11 +19,25 @@ struct ItemManager {
             if let error = error {
                 print("There was an error")
             } else {
-                let jsonRes = try? JSONSerialization.jsonObject(with: data!, options: [] )
-                print(jsonRes)
+                let jsonRes = parseJSON(data!)
             }
         }.resume()
         
     
+    }
+    
+    func parseJSON (_ data: Data) -> String? {
+        
+        let decoder = JSONDecoder()
+        
+        do {
+            let decodedData = try decoder.decode([ItemModel].self, from: data)
+            for person in decodedData {
+                print(person)
+            }
+            return nil
+        } catch {
+            return nil
+        }
     }
 }

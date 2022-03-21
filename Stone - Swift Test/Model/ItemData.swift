@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemModel {
+struct ItemModel: Decodable, Hashable {
     
     let title: String
     let price: Int
