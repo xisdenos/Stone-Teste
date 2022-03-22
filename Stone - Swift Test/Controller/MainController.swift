@@ -9,18 +9,39 @@ import UIKit
 
 class MainController: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
+    
     let info = ItemManager()
+    var tyle: [ItemModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        info.getData()
+        tableView.dataSource = self
+        Task{
+            do {
+                let albuns = try await info.asyncGetData()
+                tyle = albuns
+            } catch {
+                print("request failed")
+            }
+        }
         // Do any additional setup after loading the view.
     }
 
 
-    @IBAction func requestButton(_ sender: UIButton) {
-        
-    }
 }
+
+extension MainController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tyle.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+    
+}
+
+
 

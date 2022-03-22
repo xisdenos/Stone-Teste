@@ -10,34 +10,22 @@ import Foundation
 
 struct ItemManager {
     
-    func getData() {
+    enum AlbumsFetcherError: Error {
+            case invalidURL
+            case missingData
+        }
+    
+
+    
+    func asyncGetData() async throws -> [ItemModel] {
         
         guard let url = URL(string: "https://raw.githubusercontent.com/stone-pagamentos/desafio-mobile/master/store/products.json")
-        else { return }
+        else { throw AlbumsFetcherError.invalidURL }
         
-        let session = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("There was an error")
-            } else {
-                let jsonRes = parseJSON(data!)
-            }
-        }.resume()
+        let (data, _) = try await URLSession.shared.data(from: url)
         
-    
-    }
-    
-    func parseJSON (_ data: Data) -> String? {
-        
-        let decoder = JSONDecoder()
-        
-        do {
-            let decodedData = try decoder.decode([ItemModel].self, from: data)
-            for person in decodedData {
-                print(person)
-            }
-            return nil
-        } catch {
-            return nil
-        }
+        let itunesResult = try JSONDecoder().decode([ItemModel].self, from: data)
+        return itunesResult
     }
 }
+    
