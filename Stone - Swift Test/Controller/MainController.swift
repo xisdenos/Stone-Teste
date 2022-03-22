@@ -16,6 +16,7 @@ class MainController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.dataSource = self
         Task{
             do {
@@ -24,7 +25,9 @@ class MainController: UIViewController {
             } catch {
                 print("request failed")
             }
+            self.tableView.reloadData()
         }
+        
         // Do any additional setup after loading the view.
     }
 
@@ -37,7 +40,9 @@ extension MainController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath)
+        cell.textLabel?.text = tyle[indexPath.row].title
+        return cell
     }
     
     
